@@ -1,0 +1,5 @@
+services:
+  downloader:
+    image: fiser/yt-audio:latest
+    volumes:
+      - ./downloads:/code/downloads

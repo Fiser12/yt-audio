@@ -1,0 +1,8 @@
+# requirements.txt
+
+# Core library for browser automation
+selenium==4.10.0
+
+# Optional helper to automatically manage browser drivers (Chrome, Firefox, etc.)
+webdriver-manager==4.0.0
+yt_dlp==2025.01.26
