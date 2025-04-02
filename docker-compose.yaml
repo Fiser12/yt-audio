@@ -1,5 +1,7 @@
 services:
   downloader:
     image: fiser/yt-audio:latest
+    environment:
+      - MODO_DESCARGA=${MODO_DESCARGA:-audio}
     volumes:
       - ./downloads:/code/downloads

@@ -2,7 +2,7 @@ Add-Type -AssemblyName Microsoft.VisualBasic
 
 $videoUrl = [Microsoft.VisualBasic.Interaction]::InputBox(
     "Introduce la URL del video de YouTube:",
-    "Descargar Audio de YouTube",
+    "Descargar Contenido de YouTube",
     "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 )
 
@@ -11,6 +11,17 @@ if ([string]::IsNullOrWhiteSpace($videoUrl)) {
     exit
 }
 
-Write-Host "Descargando audio del video: $videoUrl"
+$modo = [Microsoft.VisualBasic.Interaction]::InputBox(
+    "Selecciona el modo de descarga (audio/video):",
+    "Modo de Descarga",
+    "audio"
+)
 
-docker run --rm -v "$(Resolve-Path ./):/code/downloads" ghcr.io/fiser12/yt-audio:main $videoUrl
+if ($modo -ne "audio" -and $modo -ne "video") {
+    $modo = "audio"
+}
+
+Write-Host "Descargando contenido del video en modo $modo: $videoUrl"
+
+$env:MODO_DESCARGA = $modo
+docker-compose run --rm downloader $videoUrl
