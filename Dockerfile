@@ -1,11 +1,19 @@
 # Utiliza una imagen base de Python (por ejemplo, 3.10-slim)
 FROM python:3.10-slim
 
-# Instala ffmpeg (necesario para extraer el audio) y limpia la cache de apt
-RUN apt-get update && apt-get install -y ffmpeg && rm -rf /var/lib/apt/lists/*
+# Instala ffmpeg, wget, y otras dependencias necesarias
+RUN apt-get update && \
+    apt-get install -y ffmpeg wget bzip2 libfreetype6 libfontconfig1 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Instala yt-dlp mediante pip
-RUN pip install --no-cache-dir yt-dlp
+# Instala PhantomJS
+RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && \
+    tar xvjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/share/ && \
+    ln -sf /usr/local/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin && \
+    rm phantomjs-2.1.1-linux-x86_64.tar.bz2
+
+# Instala la última versión de yt-dlp
+RUN pip install --no-cache-dir --upgrade yt-dlp
 
 # Define el directorio de trabajo
 WORKDIR /code
